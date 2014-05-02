@@ -11,7 +11,7 @@ from  ISY.IsyEvent import ISYEvent
 def main() :
 
     config = ConfigParser.ConfigParser()
-    config.read('isy.cfg')
+    config.read(os.path.expanduser('~/isy.cfg'))
     
     server = ISYEvent()
 
