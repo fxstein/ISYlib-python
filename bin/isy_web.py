@@ -59,9 +59,9 @@ def main(isy):
         print_fsstat(isy)
     else :
 
-	if argv.pop in ["-s", "--system"] :
-	    _ = argv.pop(0)
-	    systemconf = 1
+        if argv.pop in ["-s", "--system"] :
+            _ = argv.pop(0)
+            systemconf = 1
 
         cmd = argv.pop(0).upper()
         # print "cmd = ", cmd
@@ -91,16 +91,16 @@ def main(isy):
             if ( len(argv) > 0 ) :
                 dstdir = argv.pop(0)
                 res = isy.user_rmdir(name=dstdir)
-		#if res :
-		#    print "res = ", res
+                #if res :
+                #    print "res = ", res
             else :
                 print "Missing Arg:\n\t{!s} <dirname>".format(cmd)
         elif cmd in [ "RM", "DEL", "DELETE"] :
             if ( len(argv) > 0 ) :
                 dstdir = argv.pop(0)
                 res = isy.user_rm(name=dstdir)
-		# if res :
-		 #    print "res = ", res
+                # if res :
+                 #    print "res = ", res
             else :
                 print "Missing Arg:\n\t{!s} <filename>".format(cmd)
         elif cmd in ["MV", "RENAME"] :
@@ -126,10 +126,10 @@ def main(isy):
             else :
                 dstfile = name
 
-	    if systemconf :
-		res = self.soapcomm("GetSysConf", name=varpath)
-	    else :
-		res = isy.user_getfile(name=name)
+            if systemconf :
+                res = self.soapcomm("GetSysConf", name=varpath)
+            else :
+                res = isy.user_getfile(name=name)
 
             with open(dstfile, 'w') as fh:
                 fh.write(res)

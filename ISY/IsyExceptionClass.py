@@ -5,12 +5,12 @@ __copyright__ = "Copyright (C) 2013 Peter Shipley"
 __license__ = "BSD"
 
 __all__ = [ 'IsyError', 'IsyNodeError',
-	'IsyResponseError', 'IsyPropertyError', 'IsyValueError',
-	'IsyInvalidCmdError',
-	'IsySoapError', 'IsyTypeError',
-	'IsyCommunicationError',
-	'IsyRuntimeWarning', 'IsyWarning'
-	]
+        'IsyResponseError', 'IsyPropertyError', 'IsyValueError',
+        'IsyInvalidCmdError',
+        'IsySoapError', 'IsyTypeError',
+        'IsyCommunicationError',
+        'IsyRuntimeWarning', 'IsyWarning'
+        ]
 
 from urllib2 import URLError, HTTPError
 
@@ -34,17 +34,17 @@ SubClasses :
         is optional."""
         self._msg = msg
         self._exception = exception
-	self.httperr = httperr
-	if self.httperr is not None :
-	    self.httperrbody = httperr.read()
-	else :
-	    self.httperrbody = None
+        self.httperr = httperr
+        if self.httperr is not None :
+            self.httperrbody = httperr.read()
+        else :
+            self.httperrbody = None
         Exception.__init__(self, msg)
 
     def code(self):
-	if self.httperr is not None :
-	    return self.httperr.code
-	return None
+        if self.httperr is not None :
+            return self.httperr.code
+        return None
 
     def getMessage(self):
         "Return a message for this exception."

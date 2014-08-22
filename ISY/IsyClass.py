@@ -138,11 +138,11 @@ class Isy(IsyUtil):
     from ISY._isyclimate import load_clim, clim_get_val, clim_query, clim_iter
     from ISY._isyvar  import load_vars, \
                 var_get_value, var_set_value, _var_set_value, \
-		var_addrs, var_ids, get_var, _var_get_id, \
+                var_addrs, var_ids, get_var, _var_get_id, \
                 var_get_type, var_iter, var_add, \
-		var_delete,  _var_delete, \
+                var_delete,  _var_delete, \
                 var_rename, _var_rename, \
-		var_refresh_value
+                var_refresh_value
 
     from ISY._isyprog import load_prog, get_prog, _prog_get_id, \
                 prog_iter, prog_get_src, prog_addrs, \
@@ -156,10 +156,10 @@ class Isy(IsyUtil):
                 node_set_prop, _node_send, node_comm, _updatenode, \
                 load_node_types, node_get_type, node_iter, _updatenode, \
                 node_get_path, _node_get_path, _node_get_name, \
-		node_set_powerinfo, node_enable, \
-		node_del, _node_remove, \
-		node_restore, node_restore_all
-		# node_rename, \
+                node_set_powerinfo, node_enable, \
+                node_del, _node_remove, \
+                node_restore, node_restore_all
+                # node_rename, \
 
 
     from ISY._isynet_resources import _load_networking, load_net_resource, \
@@ -619,32 +619,32 @@ class Isy(IsyUtil):
             
 
             elif evnt_dat['action'] == 'ND' :
-		node_id = evnt_dat["node"]
-		node_dat = evnt_dat['eventInfo']['node']
-		if node_id in self.nodedict :
-		    self.nodedict[node_id].update(node_dat)
-		else :
-		    self.nodedict[node_id] = node_dat
+                node_id = evnt_dat["node"]
+                node_dat = evnt_dat['eventInfo']['node']
+                if node_id in self.nodedict :
+                    self.nodedict[node_id].update(node_dat)
+                else :
+                    self.nodedict[node_id] = node_dat
 
 
-	    #
-	    # At this time results are undefined for
-	    # Node class objects that represent a deleted node 
-	    #
+            #
+            # At this time results are undefined for
+            # Node class objects that represent a deleted node
+            #
             elif evnt_dat['action'] == 'NR' :
-		node_id = evnt_dat["node"]
-		if node_id in self.nodedict :
-		    node_name = self.nodedict[node_id]["name"]
-		    if "property" in self.nodedict[node_id] :
-			self.nodedict[node_id]["property"].clear()
-			del self.nodedict[node_id]["property"]
-		    if self._node2addr and node_name in self._node2addr :
-			self._node2addr[ node_name ]
-		    if self._name2id and node_name in self._name2id :
-			self._name2id[ node_name ]
+                node_id = evnt_dat["node"]
+                if node_id in self.nodedict :
+                    node_name = self.nodedict[node_id]["name"]
+                    if "property" in self.nodedict[node_id] :
+                        self.nodedict[node_id]["property"].clear()
+                        del self.nodedict[node_id]["property"]
+                    if self._node2addr and node_name in self._node2addr :
+                        self._node2addr[ node_name ]
+                    if self._name2id and node_name in self._name2id :
+                        self._name2id[ node_name ]
 
-		if node_id in self.nodeCdict :
-		    self.nodeCdict[ node_id ]
+                if node_id in self.nodeCdict :
+                    self.nodeCdict[ node_id ]
 
 
 
@@ -1070,8 +1070,8 @@ class Isy(IsyUtil):
         (idtype, nid) = self._node_get_id(nodeid)
         if nid == None :
             raise IsyValueError("unknown node/obj : " + nodeid)
-	print "nodeid ", nodeid
-	print "nid ", nid
+        print "nodeid ", nodeid
+        print "nid ", nid
         return self.soapcomm("RenameNode", id=nid, name=nname)
 
 #    def node_new(self, sid, nname) :
@@ -1282,16 +1282,16 @@ class Isy(IsyUtil):
 
 
     def set_user_credentials(self, name=None, password=None) :
-	"""
-	    Changes the userid and password for a user ( admin )
+        """
+            Changes the userid and password for a user ( admin )
 
-	    args: 
-		name         user name
-		password     user password 
-	"""
-	if name is None :
+            args:
+                name         user name
+                password     user password
+        """
+        if name is None :
             raise IsyValueError("set_user_credentials : name argument required ")
-	if password is None :
+        if password is None :
             raise IsyValueError("set_user_credentials : pass argument required ")
         return self.soapcomm("SetUserCredentials", name=name, password=password)
 

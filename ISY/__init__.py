@@ -6,7 +6,7 @@ Supporting a Simple and OO interface for ISY home automation netapp
 
 
 see also : http://www.universal-devices.com/residential/
-	   http://wiki.universal-devices.com/index.php?title=Main_Page
+           http://wiki.universal-devices.com/index.php?title=Main_Page
 
 NOTE: This Libaray is not written my or supported by universal devices
 
@@ -69,13 +69,13 @@ Internal classes
 
 Exception Classes :
     IsyError
-	IsyCommandError
-	IsyNodeError
-	IsyResponseError
-	IsyPropertyError
-	IsyValueError
-	IsyInvalidCmdError
-	IsyAttributeError
+        IsyCommandError
+        IsyNodeError
+        IsyResponseError
+        IsyPropertyError
+        IsyValueError
+        IsyInvalidCmdError
+        IsyAttributeError
 
     UpnpLimitExpired
 
@@ -109,7 +109,7 @@ from ISY.IsyDebug import *
 
 #__all__ = ['IsyUtil', 'Isy',  'IsyNode', 'IsyProgram', 'IsyVar']
 __all__ = ['Isy', 'IsyUtil', 'IsyUtilClass', 'IsyClass',  'IsyNode', 'IsyVar',
-	    'isy_discover', 'IsyGetArg']
+            'isy_discover', 'IsyGetArg']
 #__all__ = ['IsyUtil', 'Isy']
 
 
