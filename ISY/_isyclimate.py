@@ -1,4 +1,3 @@
-
 """
 This is a subfile for IsyClass.py
 
@@ -14,36 +13,40 @@ import time
 ##
 ## Climate funtions
 ##
-def load_clim(self) :
+
+
+def load_clim(self):
     """ Load climate data from ISY device
 
-        args : none
+        args: none
 
         internal function call
 
     """
-    if self.debug & 0x01 :
+    if self.debug & 0x01:
         print("load_clim")
     clim_tree = self._getXMLetree("/rest/climate")
-    self.climateinfo = dict ()
-    if clim_tree == None :
+    self.climateinfo = dict()
+    if clim_tree is None:
         return
     # Isy._printXML(self.climateinfo)
 
-    for cl in clim_tree.iter("climate") :
-        for k, v in cl.items() :
+    for cl in clim_tree.iter("climate"):
+        for k, v in cl.items():
             self.climateinfo[k] = v
         for ce in list(cl):
             self.climateinfo[ce.tag] = ce.text
 
     self.climateinfo["time"] = time.gmtime()
 
+
 def clim_get_val(self, prop):
     pass
 
+
 def clim_query(self):
     """ returns dictionary of climate info """
-    if not self.climateinfo :
+    if not self.climateinfo:
         self.load_clim()
 
     #
@@ -51,19 +54,20 @@ def clim_query(self):
     #
     return self.climateinfo
 
+
 def clim_iter(self):
     """ Iterate though climate values
 
         args:
             None
 
-        returns :
+        returns:
             Return an iterator over the climate values
     """
-    if not self.climateinfo :
+    if not self.climateinfo:
         self.load_clim()
     k = self.climateinfo.keys()
-    for p in k :
+    for p in k:
         yield self.climateinfo[p]
 
 # Do nothing
