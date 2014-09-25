@@ -53,6 +53,9 @@ EVENT_CTRL  = {
         "DIM" : "Dim",
         "X10" : "Direct X10 Commands",
         "BEEP" : "Beep",
+        "USRNUM" : "User Number",
+        "BATLVL" : "Battery Level",
+
 }
 
 

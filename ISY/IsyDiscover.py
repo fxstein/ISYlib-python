@@ -70,10 +70,6 @@ def isy_discover(**kwargs):
         print("isy_discover :debug=%s\ttimeout=%s\tpassive=%s\tcount=%s\n" % \
             (ddata.debug, ddata.timeout, ddata.passive, ddata.count))
 
-    def isy_discover_timeout(signum, frame):
-        print("isy_discover_timeout CALL")
-        raise UpnpLimitExpired("Timed Out")
-
 #    def isy_timeout(signum, frame) :
 #        print("isy_timeout CALL")
 #        print('Signal handler called with signal', signum)
@@ -81,7 +77,7 @@ def isy_discover(**kwargs):
     def isy_upnp(ddata):
 
         if ddata.debug :
-            print("isy_upnp CalL")
+            print("isy_upnp Call")
 
             print("isy_upnp debug=%s\ttimeout=%s\tpassive=%s\tcount=%s\n" % \
                     (ddata.debug, ddata.timeout, ddata.passive, ddata.count))
@@ -90,13 +86,14 @@ def isy_discover(**kwargs):
         multicast_port = 1900
         server_address = ('', multicast_port)
 
-
         # Create the socket
-        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        sock.bind(server_address)
-        group = socket.inet_aton(multicast_group)
-        mreq = struct.pack('4sL', group, socket.INADDR_ANY)
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        mreq = struct.pack('4s4s', socket.inet_aton(multicast_group), socket.inet_aton('172.24.0.66'))
         sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
+        sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 3)
+        sock.settimeout(ddata.timeout)
+        sock.bind(server_address)
 
         if not ddata.passive :
             probe = "M-SEARCH * HTTP/1.1\r\nHOST:239.255.255.250:1900\r\n" \
@@ -106,13 +103,15 @@ def isy_discover(**kwargs):
             #print "sending : ", probe
             sock.sendto(probe.encode('utf-8'), (multicast_group, multicast_port))
 
-
-        while  len(ddata.upnp_urls) < ddata.count :
+        while len(ddata.upnp_urls) < ddata.count :
 
             if ddata.debug :
                 print("while IN")
 
-            data, address = sock.recvfrom(1024)
+            try :
+                data, address = sock.recvfrom(1024)
+            except socket.timeout :
+                raise UpnpLimitExpired("Timed Out")
 
             #.decode('UTF-8')
             if sys.hexversion >= 0x3000000 :
@@ -146,21 +145,14 @@ def isy_discover(**kwargs):
         #print "returning ", ddata.upnp_urls
 
 
-    old_handler = signal.signal(signal.SIGALRM, isy_discover_timeout)
-
     #isy_upnp(ddata)
     try :
-        signal.alarm(ddata.timeout)
         isy_upnp(ddata)
-        signal.alarm(0)
-        signal.signal(signal.SIGALRM, old_handler)
     except UpnpLimitExpired:
         pass
     # except Exception :
         # print("Unexpected error:", sys.exc_info()[0])
     finally :
-        signal.alarm(0)
-        signal.signal(signal.SIGALRM, old_handler)
         if ddata.debug :
             print("return data.upnp_urls = ", ddata.upnp_urls)
 

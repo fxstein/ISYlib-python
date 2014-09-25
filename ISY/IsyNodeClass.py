@@ -258,7 +258,7 @@ class IsyNode(_IsyNodeBase):
 #            if "node-flag" in self._mydict :
 #                self.update()
 
-        self._hash = node_id_to_int(self._mydict["address"])
+        self._hash = hash(self._mydict["address"])
 
         if self.debug & 0x01 :
             print("Init Node : \"" + self._mydict["address"] + \
@@ -290,12 +290,16 @@ class IsyNode(_IsyNodeBase):
         if prop in ['ST', 'OL', 'RR'] :
             # Scene's do not have property values
 
-            if prop in self._mydict["property"] :
-                # print self._mydict["property"]
-                # print "prop value", prop, value
-                return self._mydict["property"][prop][value]
+            if "property" in self._mydict :
+                if prop in self._mydict["property"] :
+                    # print self._mydict["property"]
+                    # print "prop value", prop, value
+                    return self._mydict["property"][prop][value]
+                else :
+                    return None
             else :
                 return None
+
 
 #            if self._mydict["property"]["time"] == 0 :
 #                    self.update()

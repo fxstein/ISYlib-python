@@ -1,4 +1,4 @@
-#!/usr/local/bin/python2.7 
+#!/usr/local/bin/python3.4
 __author__ = "Peter Shipley" 
 
 
@@ -50,7 +50,7 @@ is_home=-1
 # print time.asctime( time.localtime())
 
 def Exit_gracefully(signal, frame):
-    print "Exiting in a Graceful way"
+    print("Exiting in a Graceful way")
     is_home=-1	# assert not home
     set_home(False)
     sys.exit(0)
@@ -69,7 +69,7 @@ def set_home(state) :
     else :
         isy_var.value = 0
 
-    print "\n>>>>", time.strftime(time_fmt, time.localtime()), " is_home = ", is_home, "\n"
+    print("\n>>>>", time.strftime(time_fmt, time.localtime()), " is_home = ", is_home, "\n")
 
 
 
@@ -85,7 +85,7 @@ def arp_monitor_callback(pkt):
         eaddr = pkt[ARP].hwsrc
         if target_ip is None :
             target_ip = pkt[ARP].pdst
-            print "arp_mon set target_ip = ", target_ip
+            print( "arp_mon set target_ip = ", target_ip)
         pktinfo =  pkt.sprintf("{0}\t%ARP.hwsrc% %ARP.psrc% %ARP.op% %ARP.pdst%".format(t))
 
     elif TCP in pkt :
@@ -117,12 +117,12 @@ def arp_monitor_callback(pkt):
     last_seen[eaddr] = int(time.time())
     if verbose :
         time_since = last_seen[eaddr] - prev_seen
-        print "Time_since = {0} sec = {1} min {2} sec".format(
+        print( "Time_since = {0} sec = {1} min {2} sec".format(
             time_since,
             *divmod( time_since , 60) )
             # int(time_since/60),
             #int(time_since%60)
-            #)
+            #))
 
     return pktinfo
 
@@ -136,11 +136,11 @@ def icmp_ping(ip) :
     else :
         ans,unans=srp(Ether(dst=target_mac)/IP(dst=ip)/ICMP(), timeout=2)
 
-    print "icmp_ping : ", ip, " ans = ", len(ans), ", unans = ", len(unans)
+    print("icmp_ping : ", ip, " ans = ", len(ans), ", unans = ", len(unans))
     if target_mac is None and ans :
         (so,re) = ans[0]
         target_mac = re[Ether].src
-        print "icmp_ping set target_mac = ", target_mac
+        print("icmp_ping set target_mac = ", target_mac)
     return ans,unans
  
 def arp_ping(ip) :
@@ -149,11 +149,11 @@ def arp_ping(ip) :
         return (None,None)
     ans,unans = srp(Ether(dst="ff:ff:ff:ff:ff:ff")/ARP(pdst=ip),
               timeout=2, retry=2)
-    print "arp_ping : ", ip, " ans = ", len(ans), ", unans = ", len(unans)
+    print("arp_ping : ", ip, " ans = ", len(ans), ", unans = ", len(unans))
     if target_mac is None and ans :
         (so,re) = ans[0]
         target_mac = re[Ether].src
-        print "arp_ping set target_mac = ", target_mac
+        print("arp_ping set target_mac = ", target_mac)
     return (ans,unans)
 
 #
@@ -164,7 +164,7 @@ def ping_loop() :
     global target_ip
     global last_seen
 
-    print "\nping_loop init"
+    print("\nping_loop init")
 
     arp_a, arp_u = arp_ping(target_ip)
     arping(target_ip)
@@ -176,17 +176,17 @@ def ping_loop() :
         set_home(True)
         last_seen[target_mac] = int(time.time())
 
-    print "\nping_loop start"
+    print("\nping_loop start")
     while True :
 
         time.sleep(time_sleep)
-        print "sleep complete",
+        print("sleep complete")
 
         time_now = int(time.time())
         time_since = time_now - last_seen[target_mac]
 
         if time_since >= time_recheck :
-            print "arp_pinging",
+            print("arp_pinging")
             a, u = arp_ping(target_ip)
             if len(a) < 1 :
                 a, u = icmp_ping(target_ip)
@@ -199,13 +199,13 @@ def ping_loop() :
             time_since = time_now - last_seen[target_mac]
 
         if time_since >= time_away :
-            print "last_seen = {0}".format(
+            print("last_seen = {0}".format(
                     time.strftime(time_fmt,
-                        time.localtime(last_seen[target_mac])))
+                        time.localtime(last_seen[target_mac]))))
 
-            print "time_since = {0} sec = {1} min {2} sec".format(
+            print("time_since = {0} sec = {1} min {2} sec".format(
                     time_since,
-                    *divmod( time_since , 60) )
+                    *divmod( time_since , 60) ))
             set_home(False)
 
 
@@ -217,19 +217,19 @@ def do_it() :
     global myisy
     global isy_var
 
-    print "Starting : {0}".format(time.strftime(time_fmt, time.localtime()))
+    print("Starting : {0}".format(time.strftime(time_fmt, time.localtime())))
 
     myisy = ISY.Isy(parsearg=1, faststart=1) # debug=0x80
 
     if verbose :
-        print "time_sleep=", ( time_sleep / 60 )
-        print "time_recheck=", ( time_recheck / 60 )
-        print "time_away=", ( time_away / 60 )
+        print("time_sleep=", ( time_sleep / 60 ))
+        print("time_recheck=", ( time_recheck / 60 ))
+        print("time_away=", ( time_away / 60 ))
 
 
     isy_var = myisy.get_var(target_var)
-    print "isy_var = {:<4} : {:<19}{:<5}\t{:<5}\t{:}".format(
-            isy_var.id, isy_var.name, isy_var.value, isy_var.init, isy_var.ts )
+    print("isy_var = {:<4} : {:<19}{:<5}\t{:<5}\t{:}".format(
+            isy_var.id, isy_var.name, isy_var.value, isy_var.init, isy_var.ts ))
 
     signal.signal(signal.SIGINT, Exit_gracefully)
 
@@ -238,7 +238,7 @@ def do_it() :
         if ans :
             (so,re) = ans[0]
             target_mac = re[Ether].src
-            print "target_mac = ", target_mac
+            print("target_mac = ", target_mac)
 
     assert( target_mac is not None )
 
@@ -250,7 +250,7 @@ def do_it() :
     event_thread.daemon = True
     event_thread.start()
 
-    print "sniff loop"
+    print("sniff loop")
 
     time.sleep(1)
 

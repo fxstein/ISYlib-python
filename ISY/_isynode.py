@@ -902,7 +902,7 @@ def node_del(self, naddr) :
 
     try :
         r = self._node_remove(node_id)
-    except IsySoapError, se :
+    except IsySoapError as se :
 
         # if error code is 501 then Node did not exist or was already deleted
         # this is messy and needs to change or be removed

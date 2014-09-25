@@ -1,4 +1,4 @@
-#!/usr/local/bin/python2.7
+#!/usr/local/bin/python3.4
 __author__ = "Peter Shipley"
 
 
@@ -16,6 +16,8 @@ opt_error = 0
 opt_errorlog = 0
 opt_names = 0
 opt_addr = None
+opt_user = None
+opt_passwd = None
 
 time_const=2208988800;
 
@@ -47,13 +49,13 @@ def log_err(isy) :
    # llimit = 200
 
     #print "{0} {1} {2} {3}".format(*header)
-    print fmt.format(*header)
+    print(fmt.format(*header))
     for log_line in isy.log_iter(error = 1) :
         col = str(log_line).split("\t")
 
         # print "log_line : ", len(col), " : ", "|".join(col)
         if ( len(col) < 4 ) :
-            print "BAD log_line : ", len(col), " : ", "|".join(col)
+            print("BAD log_line : ", len(col), " : ", "|".join(col))
             continue
 
         newtime = int(col[0]) - time_const - time_offset
@@ -63,7 +65,7 @@ def log_err(isy) :
         if col[1] < len(LOG_USERID) : col[1] = LOG_USERID[col[1]]
         if col[2] in LOG_TYPES : col[2] = LOG_TYPES[col[2]]
 
-        print fmt.format( *col )
+        print(fmt.format( *col ))
 
         #if llimit == 0 :
         #    break
@@ -71,15 +73,10 @@ def log_err(isy) :
 
 def log_sys(isy) :
 
-    nodefmt="{:<12}"
-    commfmt="{:<4}"
+    nodefmt="{:<20}"
+    commfmt="{:<10}"
 
     header = [ "Node", "Control", "Action", "Time", "UID", "Log Type" ]
-
-    if opt_names :
-        nodefmt="{:<18}"
-        commfmt="{:<10}"
-        print "opt_names = ", opt_names
 
     if opt_tab :
         fmt = "{0}\t{1}\t{2}\t{3}\t{4}\t{5}"
@@ -95,10 +92,10 @@ def log_sys(isy) :
 
     time_offset = log_time_offset()
 
-   # llimit = 200
+    # llimit = 200
 
-    # print "{0} {1} {2} {3} {4} {5}".format(*header)
-    print fmt.format(*header)
+    # print("{0} {1} {2} {3} {4} {5}".format(*header))
+    print(fmt.format(*header))
     for log_line in isy.log_iter(error = opt_errorlog) :
         col = str(log_line).split("\t")
 
@@ -115,7 +112,7 @@ def log_sys(isy) :
         if col[4] < len(LOG_USERID) : col[4] = LOG_USERID[col[4]]
         if col[5] in LOG_TYPES : col[5] = LOG_TYPES[col[5]]
 
-        print fmt.format( *col )
+        print(fmt.format( *col ))
 
         #if llimit == 0 :
         #    break
@@ -123,12 +120,12 @@ def log_sys(isy) :
 
 
 def parseargs():
-    global opt_names, opt_addr, opt_errorlog, opt_debug, opt_tab, opt_nosec
+    global opt_names, opt_addr, opt_user, opt_passwd, opt_errorlog, opt_debug, opt_tab, opt_nosec
     try:
         opts, args = getopt.getopt(
-            sys.argv[1:], "ahetnsd:",
-            ['help', 'error', 'debug', 'addr', 'tab', 'nosec', 'names'])
-    except getopt.error, e:
+            sys.argv[1:], "a:u:p:hetnsd:",
+            ['help', 'error', 'debug', 'addr', 'user', 'password', 'tab', 'nosec', 'names'])
+    except getopt.error as e:
         usage(1, e)
  
     for opt, arg in opts:
@@ -138,6 +135,10 @@ def parseargs():
             opt_names = 1
         elif opt in ('-a', '--addr'):
             opt_addr = arg
+        elif opt in ('-u', '--user'):
+            opt_user = arg
+        elif opt in ('-p', '--password'):
+            opt_passwd = arg
         elif opt in ('-e', '--error'):
             opt_errorlog = 1
         elif opt in ('-d', '--debug'):
@@ -156,7 +157,7 @@ def usage(code, msg=''):
 
 if __name__ == '__main__' :
     parseargs()
-    myisy = Isy( addr=opt_addr, debug=opt_debug )
+    myisy = Isy( addr=opt_addr, userl=opt_user, userp=opt_passwd, debug=opt_debug )
     main(myisy)
     exit(0)
 

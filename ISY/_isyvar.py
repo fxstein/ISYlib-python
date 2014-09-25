@@ -132,14 +132,14 @@ def var_refresh_value(self, var) :
     a = varid.split(':')
     xurl = "/rest/vars/get/" + a[0] + "/" + a[1]
     resp = self._getXMLetree(xurl)
-    print "resp", resp
+    print("resp", resp)
 
     if resp is None :
         raise IsyPropertyError("var_refresh: error geting var : " + str(var))
 
     for vd in list(resp) :
         if vd.tag in self._vardict[varid] :
-            self._vardict[varid][vd.tag] = vd,text
+            self._vardict[varid][vd.tag] = vd.text
 
     self._vardict[varid]["val"] = int(self._vardict[varid]["val"])
     self._vardict[varid]["init"] = int(self._vardict[varid]["init"])
@@ -422,12 +422,12 @@ def var_add(self, varid=None, varname=None, vartype="int", value=None, initval=N
     ET.SubElement(var_et, "e", {'id': varid, 'name': varname})
 
     new_var_data = ET.tostring(var_et, method='html')
-    print "new_var_data=", new_var_data
+    print("new_var_data=", new_var_data)
 
     # This is stupid but method='html' lowercases closing tags
     # regardless of the opening tag case.
     new_var_data = new_var_data.replace("</clist>", "</CList>")
-    print "new_var_data=", new_var_data
+    print("new_var_data=", new_var_data)
 
     r = self._sendfile(data=new_var_data, filename=varpath, load="y")
 
@@ -583,7 +583,7 @@ def var_rename(self, var=None, varname=None) :
 
     if varid in self._vardict :
         self._vardict[varid]['name'] = varname
-        self.name2var[varname] = vid
+        self.name2var[varname] = varid
 
 #    if varname in self._name2id :
 #       if self._name2id[varname][0] == "var" :

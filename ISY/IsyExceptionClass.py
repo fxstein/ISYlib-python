@@ -1,5 +1,3 @@
-from urllib2 import URLError
-
 __author__ = 'Peter Shipley <peter.shipley@gmail.com>'
 __copyright__ = "Copyright (C) 2013 Peter Shipley"
 __license__ = "BSD"
@@ -12,7 +10,12 @@ __all__ = [ 'IsyError', 'IsyNodeError',
         'IsyRuntimeWarning', 'IsyWarning'
         ]
 
-from urllib2 import URLError, HTTPError
+import sys
+if sys.hexversion < 0x3000000 :
+    from urllib2 import URLError, HTTPError
+
+else :
+    from urllib.error import URLError
 
 #
 # The Following was lifted from other modules used as examples

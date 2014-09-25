@@ -1,4 +1,4 @@
-#!/usr/local/bin/python2.7
+#!/usr/local/bin/python3.4
 __author__ = "Peter Shipley"
 
 #
@@ -49,7 +49,7 @@ def main(isy):
             addr_known.add(node)
             known_housecodes.add(house)
 
-    print "addr_known : ", str(", ").join(sorted(addr_known))
+    print( "addr_known : ", str(", ").join(sorted(addr_known)))
 
 
     for log_line in isy.log_iter() :
@@ -62,15 +62,13 @@ def main(isy):
             else :
                 addr_used.add(col[1])
 
-    print "addr_received = ", str(", ").join(sorted(addr_received))
-    print "addr_used = ", str(", ").join(sorted(addr_used))
+    print("addr_received = ", str(", ").join(sorted(addr_received)))
+    print("addr_used = ", str(", ").join(sorted(addr_used)))
 
     addr_unknown = addr_received.union(addr_used) - addr_known
     addr_unknown -= known_housecodes
 
-    print "addr_unknown = ", str(", ").join(sorted(addr_unknown))
-
-
+    print("addr_unknown = ", str(", ").join(sorted(addr_unknown)))
 
 
 if __name__ == '__main__' :

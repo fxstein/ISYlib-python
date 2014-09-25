@@ -1,4 +1,4 @@
-#!/usr/local/bin/python2.7
+#!/usr/local/bin/python3.4
 """
     a demo app that uses pynest to read values from the Nest
     and set vars in a ISY home automation device 
@@ -46,7 +46,7 @@ def main() :
         sys.exit(-1)
 
     if (not opts.uuser) or (not opts.upass):
-        print "a --user and --password are needed"
+        print( "a --user and --password are needed")
         sys.exit(-1)
 
     # get Nest Values
@@ -112,7 +112,7 @@ def main() :
             warn("Invalid Isy Var : {0}".format(isy_var), RuntimeWarning)
             continue
         except (IsyValueError , ValueError):
-            print "invalid value :", nest_values[src_var]
+            print("invalid value :", nest_values[src_var])
             warn("Invalid value for ISY var: {0}".format(set_value),
                     RuntimeWarning)
             continue
@@ -123,7 +123,7 @@ def main() :
             exit(0)
         else :
             if opts.verbose :
-                print isy_var,"=", int(set_value)
+                print(isy_var,"=", int(set_value))
 
     # end of main
     return
@@ -162,27 +162,27 @@ def create_parser():
    return parser
 
 def help_txt():
-    print "syntax: isy_nestset [options] isyvar=nestvar .... "
-    print "options:"
-    print "   --user <username>      ... username on nest.com"
-    print "   --password <password>  ... password on nest.com"
-    print "   --celsius              ... use celsius (the default is farenheit)"
-    print "   --serial <number>      ... optional, specify serial number of nest to use"
-    print "   --index <number>       ... optional, 0-based index of nest"
-    print "                                (use --serial or --index, but not both)"
-    print
-    print "commands: isyvar=nestvar, show, help"
-    print "    show                  ... show available nest vars"
-    print "    help                  ... print this help"
-    print
-    print "    home_temp=current_temperature"
-    print "                          ... set the var on the isy named 'home_temp'"
-    print "                            to the value of the nest current_temperature"
-    print "    Note: the varable has to preexist on the ISY device "
-    print
-    print "examples:"
-    print "    nest.py --user joe@user.com --password swordfish home_temp=current_temperature"
-    print "    nest.py --user joe@user.com --password swordfish show"
+    print("syntax: isy_nestset [options] isyvar=nestvar .... ")
+    print("options:")
+    print("   --user <username>      ... username on nest.com")
+    print("   --password <password>  ... password on nest.com")
+    print("   --celsius              ... use celsius (the default is farenheit)")
+    print("   --serial <number>      ... optional, specify serial number of nest to use")
+    print("   --index <number>       ... optional, 0-based index of nest")
+    print("                                (use --serial or --index, but not both)")
+    print()
+    print("commands: isyvar=nestvar, show, help")
+    print("    show                  ... show available nest vars")
+    print("    help                  ... print this help")
+    print()
+    print("    home_temp=current_temperature")
+    print("                          ... set the var on the isy named 'home_temp'")
+    print("                            to the value of the nest current_temperature")
+    print("    Note: the varable has to preexist on the ISY device ")
+    print()
+    print("examples:")
+    print("    nest.py --user joe@user.com --password swordfish home_temp=current_temperature")
+    print("    nest.py --user joe@user.com --password swordfish show")
 
     # end of help
     return

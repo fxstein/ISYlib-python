@@ -1,4 +1,4 @@
-#!/usr/local/bin/python2.7
+#!/usr/local/bin/python3.4
 __author__ = "Peter Shipley"
 __license__ = "BSD"
 
@@ -18,7 +18,7 @@ def list_units() :
     print(fmt % ("-" * 20, "-" * 20, "-" * 20 ))
 
     # wait upto 5 seconds or after you have discovered two unit
-    r = isy_discover(timeout=5, count=2)
+    r = isy_discover(timeout=60, count=2, debug=1)
     for key, unit in r.items() :
         print(fmt % ( unit['friendlyName'], unit['UDN'], unit['URLBase']  ))
 

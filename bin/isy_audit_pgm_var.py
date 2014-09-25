@@ -1,4 +1,4 @@
-#!/usr/local/bin/python2.7
+#!/usr/local/bin/python3.4
 __author__ = "Peter Shipley"
 #
 #  quick hack to check what ISY vars are in use by which programs
@@ -79,14 +79,14 @@ def list_prog_vars(isy) :
 
         # if program has vars, print name and list vars it contains.
         if len(var_list) > 0 or  opt_skipnovars != True :
-            print "{:<5}{:<{namew}} {!s}".format(p.id, pname, ", ".join(var_list), namew=name_width),
+            print("{:<5}{:<{namew}} {!s}".format(p.id, pname, ", ".join(var_list), namew=name_width))
 
             # check it any of the referanced vars are missing from the system var list
             # if so report this
             missing_var_set = var_used_set - var_known_set
             if missing_var_set :
-                print "( bad : ",  str(", ").join(missing_var_set), " ) ",
-            print
+                print("( bad : ",  str(", ").join(missing_var_set), " ) ")
+            print()
 
 
     # not that we have searched all the programs...
@@ -99,25 +99,25 @@ def list_prog_vars(isy) :
 
 
     # print all vars that are used.
-    print "\nUsed var Ids (", len(var_used_all), "): ",
-    print str(", ").join(sorted(var_used_all, None, varkey))
+    print("\nUsed var Ids (", len(var_used_all), "): ")
+    print(str(", ").join(sorted(var_used_all, None, varkey)))
 
     if var_used_once_set :
-        print "\nUsed var once Ids (", len(var_used_once_set), "): ",
-        print str(", ").join(sorted(var_used_once_set, None, varkey))
+        print("\nUsed var once Ids (", len(var_used_once_set), "): ")
+        print(str(", ").join(sorted(var_used_once_set, None, varkey)))
 
 
     unused_var_set = var_known_set - var_used_all
 
     # print var Ids that exist that are not referanced 
     unused_var_set_sorted = sorted(unused_var_set,None,varkey)
-    print "\nUnused var Ids (", len(unused_var_set), "): ",
-    print str(", ").join(unused_var_set_sorted)
+    print("\nUnused var Ids (", len(unused_var_set), "): ")
+    print(str(", ").join(unused_var_set_sorted))
 
 
     # also print the vars by name
-    print "\nUnused var Names (", len(unused_var_set), "): ",
-    print str(", ").join( [isy._vardict[el]["name"] for el in unused_var_set_sorted])
+    print("\nUnused var Names (", len(unused_var_set), "): ")
+    print(str(", ").join( [isy._vardict[el]["name"] for el in unused_var_set_sorted]))
 
 
 # funtion call for sorting var Ids ( in the form of 1:23 )
