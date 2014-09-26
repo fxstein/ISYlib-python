@@ -1241,9 +1241,9 @@ class Isy(IsyUtil):
                 password     user password
         """
         if name is None:
-            raise IsyValueError("set_user_credentials: name argument required ")
+            raise IsyValueError("set_user_credentials: name argument required")
         if password is None:
-            raise IsyValueError("set_user_credentials: pass argument required ")
+            raise IsyValueError("set_user_credentials: pass argument required")
         return self.soapcomm("SetUserCredentials", name=name, password=password)
 
     def reboot(self):
