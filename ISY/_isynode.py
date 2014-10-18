@@ -56,9 +56,9 @@ def load_nodes(self, doreload=0):
     nodeinfo = self._getXMLetree("/rest/nodes")
     if nodeinfo is None:
         raise IsyCommunicationError("Load Node Info Fail: " + self.error_str)
-    self._gen_folder_list(nodeinfo, reload=doreload)
-    self._gen_nodedict(nodeinfo, reload=doreload)
-    self._gen_nodegroups(nodeinfo, reload=doreload)
+    self._gen_folder_list(nodeinfo, doreload=doreload)
+    self._gen_nodedict(nodeinfo, doreload=doreload)
+    self._gen_nodegroups(nodeinfo, doreload=doreload)
     # self._printdict(self._nodedict)
     # print("load_nodes self._node2addr: ", len(self._node2addr))
     self._gen_member_list()
