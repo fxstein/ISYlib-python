@@ -10,9 +10,11 @@ __license__ = "BSD"
 # DOES NOT PROPERLY HANDLE XML namespace FOR Upnp
 #
 
+import platform
 import socket
 import struct
 import sys
+import time
 import xml.etree.ElementTree as ET
 # import base64
 if sys.hexversion < 0x3000000:
@@ -88,7 +90,11 @@ def isy_discover(**kwargs):
         # Create the socket
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        mreq = struct.pack('4s4s', socket.inet_aton(multicast_group), socket.inet_aton('172.24.0.66'))
+        if platform.system() == 'Windows':
+            interface_address = socket.gethostbyname(socket.gethostname())
+        else:
+            interface_address = str(socket.INADDR_ANY)
+        mreq = struct.pack('4s4s', socket.inet_aton(multicast_group), socket.inet_aton(interface_address))
         sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
         sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 3)
         sock.settimeout(ddata.timeout)
@@ -102,12 +108,19 @@ def isy_discover(**kwargs):
             #print "sending: ", probe
             sock.sendto(probe.encode('utf-8'), (multicast_group, multicast_port))
 
+        start_time = time.clock()
         while len(ddata.upnp_urls) < ddata.count:
 
             if ddata.debug:
                 print("while IN")
 
+            current_time = time.clock()
+
+            if (current_time - start_time) > ddata.timeout:
+                break
+
             try:
+                sock.settimeout(ddata.timeout - (current_time - start_time))
                 data, address = sock.recvfrom(1024)
             except socket.timeout:
                 raise UpnpLimitExpired("Timed Out")

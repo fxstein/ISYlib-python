@@ -10,16 +10,16 @@ __license__ = "BSD"
 #
 
 
-from  ISY.IsyDiscover import isy_discover
+from ISY.IsyDiscover import isy_discover
 
-def list_units() :
+def list_units():
     fmt = "%-25s %-25s %s"
     print(fmt % ("Device Name", "Device Number", "URL Address" ))
     print(fmt % ("-" * 20, "-" * 20, "-" * 20 ))
 
     # wait upto 5 seconds or after you have discovered two unit
-    r = isy_discover(timeout=60, count=2, debug=1)
-    for key, unit in r.items() :
+    r = isy_discover(timeout=30, count=2, debug=0)
+    for key, unit in r.items():
         print(fmt % ( unit['friendlyName'], unit['UDN'], unit['URLBase']  ))
 
 
