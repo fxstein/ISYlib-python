@@ -997,7 +997,14 @@ class Isy(IsyUtil):
         ret =  self.soapcomm("GetDebugLevel",  )
         return ret
 
-    def node_discover_cancel(self, flag="1") :
+    def node_discover_start(self, nodetype=None) :
+        soapargs = dict()
+        if nodetype is not None :
+            soapargs['type'] = nodetype
+        ret = self.soapcomm("StartNodesDiscovery", **soapargs)
+        return ret
+
+    def node_discover_stop(self, flag="1") :
         """
             Puts ISY out of discovery (linking) mode
 
@@ -1026,6 +1033,36 @@ class Isy(IsyUtil):
 
 
 
+    def node_get_props(self, naddr) :
+	""""
+	Soap call GetNodeProps
+	"""
+	(nodetype, node_id) = self._node_get_id(naddr)
+
+	if self.debug & 0x04 :
+	    print("node_get_props", naddr)
+
+	if not node_id :
+	    raise LookupError(
+		"node_del: {0} not a node ( {1}={2} )".format(
+			naddr, node_id, nodetype))
+
+	try :
+	    r = self.soapcomm("GetNodeProps", node=node_id) 
+	except IsySoapError, se :
+
+	# if error code is 404 then Node did not exist or was already deleted
+	# this is messy and needs to change or be removed 
+	    code = se.code()
+	    if code == 404 :
+		return None
+	    raise
+	else :
+	    return et2d( ET.fromstring(r))
+
+
+
+
     #
     # need to add code to update name2id and *2addr lookup arrays
     #
@@ -1038,7 +1075,7 @@ class Isy(IsyUtil):
 
             calls SOAP RenameNode() / RenameGroup() / RenameFolder()
         """
-        (idtype, nid) = self.getid(objid)
+        (idtype, nid) = self._node_get_id(objid)
         if nid == None :
             raise IsyValueError("unknown node/obj : " + objid)
         if idtype == "node" :
@@ -1138,6 +1175,8 @@ class Isy(IsyUtil):
             while nid in self._nodefolder or nid in self._nodegroups :
                 iid += 1
                 nid=str(iid)
+	if sname is None :
+	    sname = nid
         self.soapcomm("AddGroup", id=nid, name=sname)
         #
         # add code to update self._nodegroups
@@ -1150,7 +1189,8 @@ class Isy(IsyUtil):
                 args: 
                     group = a unique (unused) scene_id ID
                     node = id, name or Node Obj
-                    flag = set to 0x10 if node it a controler for Scene/Group
+                    flag = set to 0x10 if node is a controler for Scene/Group
+			   set to 0x20 if node is responder for Scene/Group
 
             Add new Node to Scene/Group 
 
@@ -1981,7 +2021,7 @@ class Isy(IsyUtil):
     #
     def getobj(self, objaddr):
         """ access node obj line a dictionary entery """
-        (idtype, nid) = self.getid(objid)
+        (idtype, nid) = self._node_get_id(objid)
         if nid == None :
             raise IsyValueError("unknown node/obj : " + objid)
         if nid in self.nodeCdict :

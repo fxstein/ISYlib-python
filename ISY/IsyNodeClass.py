@@ -238,6 +238,7 @@ class IsyNode(_IsyNodeBase):
             'ELK_ID',
 	    'parent', 'parent-type',
             'name', 'pnode', 'flag', 'wattage',
+	    'isLoad', 'location', 'description',
             'OL', 'RR', 'ST', 'type']
     _setlist = ['RR', 'OL', 'status', 'ramprate', 'onlevel', 'enable']
     _propalias = {'status': 'ST', 'value': 'ST', 'val': 'ST',
@@ -250,6 +251,8 @@ class IsyNode(_IsyNodeBase):
 
 	# self._objtype = (1, "node")
 	self._objtype = "node"
+
+	self._nodeprops = None
 
 	super(self.__class__, self).__init__(isy, ndict)
 
@@ -286,6 +289,17 @@ class IsyNode(_IsyNodeBase):
             raise IsyPropertyError("no property Attribute {!s}".format(prop))
 
         # check if we have a property
+
+        if prop in ['isLoad', 'location', 'description'] :
+	    if self._nodeprops is None :
+		self._nodeprops = self.isy.node_get_props(self._mydict["address"])
+	    if self._nodeprops is None :
+		return None
+	    if "prop" in self._nodeprops :
+		return self._nodeprops[prop]
+	    else :
+		return None
+
 
         if prop in ['ST', 'OL', 'RR'] :
             # Scene's do not have property values
@@ -541,15 +555,32 @@ class IsyScene(_IsyNodeBase):
 	return  self._rename("RenameGroup",  newname)
 
     def member_del(self, node) :
-	r = self.isy.soapcomm("RemoveFromGroup",
-		node=node._get_prop("address"),
-		group=self._mydict["address"])
+	r = self.isy.scene_del_node(
+		self._mydict["address"],
+		node)
+#	r = self.isy.soapcomm("RemoveFromGroup",
+#		node=node._get_prop("address"),
+#		group=self._mydict["address"])
+	return r
+
+    def member_add_controler(self, node, flag=16) :
+	""" Add Node to scene/group as Responder """
+	return self.member_add(node, flag)
+
+    def member_add_responder(self, node, flag=32) :
+	""" Add Node to scene/group Controller """
+	return self.member_add(node, flag)
 
     def member_add(self, node, flag=16) :
-	r = self.isy.soapcomm("MoveNode",
-		node=node._get_prop("address"),
-		group=self._mydict["address"],
-		flag=16)
+	""" Add Node to scene/group """
+	r = self.isy.scene_add_node(
+		self._mydict["address"],
+		node,
+		flag=0x10) 
+#	r = self.isy.soapcomm("MoveNode",
+#		node=node._get_prop("address"),
+#		group=self._mydict["address"],
+#		flag=16)
 	return r
 
     def member_iter(self, flag=0):
