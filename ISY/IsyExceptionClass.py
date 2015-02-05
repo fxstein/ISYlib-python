@@ -15,7 +15,7 @@ if sys.hexversion < 0x3000000:
     from urllib2 import URLError, HTTPError
 
 else:
-    from urllib.error import URLError
+    from urllib.error import URLError, HTTPError
 
 
 #
