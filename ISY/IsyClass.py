@@ -990,31 +990,31 @@ class Isy(IsyUtil):
 
 
     def node_get_props(self, naddr) :
-	""""
-	Soap call GetNodeProps
-	"""
-	(nodetype, node_id) = self._node_get_id(naddr)
+        """"
+        Soap call GetNodeProps
+        """
+        (nodetype, node_id) = self._node_get_id(naddr)
 
-	if self.debug & 0x04 :
-	    print("node_get_props", naddr)
+        if self.debug & 0x04 :
+            print("node_get_props", naddr)
 
-	if not node_id :
-	    raise LookupError(
-		"node_del: {0} not a node ( {1}={2} )".format(
-			naddr, node_id, nodetype))
+        if not node_id :
+            raise LookupError(
+                "node_del: {0} not a node ( {1}={2} )".format(
+                naddr, node_id, nodetype))
 
-	try :
-	    r = self.soapcomm("GetNodeProps", node=node_id)
-	except IsySoapError, se :
+        try :
+            r = self.soapcomm("GetNodeProps", node=node_id)
+        except IsySoapError as se:
 
-	# if error code is 404 then Node did not exist or was already deleted
-	# this is messy and needs to change or be removed
-	    code = se.code()
-	    if code == 404 :
-		return None
-	    raise
-	else :
-	    return et2d( ET.fromstring(r))
+        # if error code is 404 then Node did not exist or was already deleted
+        # this is messy and needs to change or be removed
+            code = se.code()
+            if code == 404 :
+                return None
+            raise
+        else :
+            return et2d( ET.fromstring(r))
 
 
 
@@ -1131,12 +1131,12 @@ class Isy(IsyUtil):
             while nid in self._nodefolder or nid in self._nodegroups:
                 iid += 1
                 nid=str(iid)
-	if sname is None :
-	    sname = nid
-        self.soapcomm("AddGroup", id=nid, name=sname)
-        #
-        # add code to update self._nodegroups
-        #
+        if sname is None :
+            sname = nid
+            self.soapcomm("AddGroup", id=nid, name=sname)
+            #
+            # add code to update self._nodegroups
+            #
         return nid
 
     def scene_add_node(self, groupid, nid, nflag=0x10):
@@ -1146,7 +1146,7 @@ class Isy(IsyUtil):
                     group = a unique (unused) scene_id ID
                     node = id, name or Node Obj
                     flag = set to 0x10 if node is a controler for Scene/Group
-			   set to 0x20 if node is responder for Scene/Group
+                           set to 0x20 if node is responder for Scene/Group
 
             Add new Node to Scene/Group
 
