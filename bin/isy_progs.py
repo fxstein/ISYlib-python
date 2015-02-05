@@ -1,4 +1,4 @@
-#!/usr/local/bin/python2.7
+#!/usr/local/bin/python3.4
 
 __author__ = "Peter Shipley"
 
@@ -12,9 +12,9 @@ def list_progs(isy) :
     print(pfmt.format("-" * 4, "-" * 10, "-" * 4, "-" * 4,"-" * 4, "-" * 4))
     for p in isy.prog_iter():
        if p.folder :
-	   print(pfmt.format(p.id, p.name, p.status, "-", "-", p.path + "/" ))
+           print(pfmt.format(p.id, p.name, p.status, "-", "-", p.path + "/" ))
        else:
-	   print(pfmt.format(p.id, p.name, p.status, p.running, p.enabled, p.path))
+           print(pfmt.format(p.id, p.name, p.status, p.running, p.enabled, p.path))
 
 
 if __name__ == '__main__' :

@@ -2,65 +2,67 @@
 This is a data file for IsyEvent.py
  
 """
-# author : Peter Shipley <peter.shipley@gmail.com>
-# copyrigh :  Copyright (C) 2013 Peter Shipley
-# license : BSD
+# author: Peter Shipley <peter.shipley@gmail.com>
+# copyrigh:  Copyright (C) 2013 Peter Shipley
+# license: BSD
 
 
-__all__ = [] # EVENT_CTRL, LOG_USERID
+__all__ = []    # EVENT_CTRL, LOG_USERID
 
     ## EVENT_CTRL ##
 
-EVENT_CTRL  = {
-        "_0" : "Heartbeat", 
-        "_1" : "Trigger", 
-        "_2" : "Protocol Specific", 
-        "_3" : "Nodes Updated",
-        "_4" : "System Config Updated", 
-        "_5" : "System Status", 
-        "_6" : "Internet Access", 
-        "_7" : "System Progress", 
-        "_8" : "Security System", 
-        "_9" : "System Alert", 
-        "_10" : "Electricity",
-        "_11" : "Climate", 
-        "_12" : "AMI/SEP", 
-        "_13" : "Ext Energy Mon", 
-        "_14" : "UPB Linker", 
-        "_15" : "UPB Dev State", 
-        "_16" : "UPB Dev Status", 
-        "_17" : "Gas", 
-        "_18" : "ZigBee", 
-        "_19" : "Elk", 
-        "_20" : "Device Link", 
-        "DON" : "Device On", 
-        "DFON" : "Device Fast On", 
-        "DOF" : "Device Off", 
-        "DFOF" : "Device Fast Off", 
-        "ST" : "Status", 
-        "OL" : "On Level",
-        "RR" : "Ramp Rate", 
-        "BMAN" : "Start Manual Change",
-        "SMAN" : "Stop Manual Change",
-        "CLISP" : "Setpoint",
-        "CLISPH" : "Heat Setpoint",
-        "CLISPC" : "Cool Setpoint",
-        "CLIFS" : "Fan State",
-        "CLIMD" : "Thermostat Mode",
-        "CLIHUM" : "Humidity",
-        "CLIHCS" : "Heat/Cool State",
-        "BRT" : "Brighten",
-        "DIM" : "Dim",
-        "X10" : "Direct X10 Commands",
-        "BEEP" : "Beep",
+EVENT_CTRL = {
+    "_0": "Heartbeat",
+    "_1": "Trigger",
+    "_2": "Protocol Specific",
+    "_3": "Nodes Updated",
+    "_4": "System Config Updated",
+    "_5": "System Status",
+    "_6": "Internet Access",
+    "_7": "System Progress",
+    "_8": "Security System",
+    "_9": "System Alert",
+    "_10": "Electricity",
+    "_11": "Climate",
+    "_12": "AMI/SEP",
+    "_13": "Ext Energy Mon",
+    "_14": "UPB Linker",
+    "_15": "UPB Dev State",
+    "_16": "UPB Dev Status",
+    "_17": "Gas",
+    "_18": "ZigBee",
+    "_19": "Elk",
+    "_20": "Device Link",
+    "DON": "Device On",
+    "DFON": "Device Fast On",
+    "DOF": "Device Off",
+    "DFOF": "Device Fast Off",
+    "ST": "Status",
+    "OL": "On Level",
+    "RR": "Ramp Rate",
+    "BMAN": "Start Manual Change",
+    "SMAN": "Stop Manual Change",
+    "CLISP": "Setpoint",
+    "CLISPH": "Heat Setpoint",
+    "CLISPC": "Cool Setpoint",
+    "CLIFS": "Fan State",
+    "CLIMD": "Thermostat Mode",
+    "CLIHUM": "Humidity",
+    "CLIHCS": "Heat/Cool State",
+    "BRT": "Brighten",
+    "DIM": "Dim",
+    "X10": "Direct X10 Commands",
+    "BEEP": "Beep",
+    "USRNUM": "User Number",
+    "BATLVL": "Battery Level",
 }
 
 
-LOG_USERID = [ "SYSTEM_USER", "SYSTEM_DRIVER_USER", "WEB_USER",
-	    "SCHEDULER_USER", "D2D_USER", " ELK_USER",
-	    "SEP_DEVICE_UMETER_USER", "SEP_DEVICE_UPRICE_USER",
-	    "SEP_DEVICE_UMSG_USER", "SEP_DEVICE_UDR_USER",
-	    "GAS_METER_USER" ]
+LOG_USERID = ["SYSTEM_USER", "SYSTEM_DRIVER_USER", "WEB_USER",
+              "SCHEDULER_USER", "D2D_USER", " ELK_USER",
+              "SEP_DEVICE_UMETER_USER", "SEP_DEVICE_UPRICE_USER",
+              "SEP_DEVICE_UMSG_USER", "SEP_DEVICE_UDR_USER",
+              "GAS_METER_USER"]
 
 
 LOG_TYPES = {
@@ -235,7 +237,6 @@ LOG_TYPES = {
     "-200000": "DEVICE_DRIVER_ERROR_MSG",
     "-210001": "CALL_HOME_PORTAL_NO_FD",
 }
-
 
 
 #

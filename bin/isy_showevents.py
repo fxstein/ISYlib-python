@@ -1,4 +1,4 @@
-#!/usr/local/bin/python2.7 -u
+#!/usr/local/bin/python3.4 -u
 __author__ = "Peter Shipley"
 
 
@@ -11,7 +11,7 @@ def main() :
 
     config = ConfigParser.ConfigParser()
     config.read(os.path.expanduser('~/home.cfg'))
-    
+
     server = ISYEvent()
 
     isy_addr = config.get('isy', 'addr')
@@ -19,17 +19,17 @@ def main() :
     isy_pass = config.get('isy', 'pass')
 
     server.subscribe(
-	addr=isy_addr,
-	userl=isy_user,
-	userp=isy_pass )
+            addr=isy_addr,
+            userl=isy_user,
+            userp=isy_pass )
 
     server.set_process_func(ISYEvent.print_event, "")
 
     try:
-	print('Use Control-C to exit')
-	server.events_loop()   #no return
+        print('Use Control-C to exit')
+        server.events_loop()   #no return
     except KeyboardInterrupt:
-	print('Exiting')
+        print('Exiting')
 
 
 

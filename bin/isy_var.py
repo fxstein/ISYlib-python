@@ -1,4 +1,4 @@
-#!/usr/local/bin/python2.7
+#!/usr/local/bin/python3.4
 """list ISY vars demo app
 
 Usage: %(program)s [options] [var=val]
@@ -26,17 +26,17 @@ def list_vars_bash(myisy, csh=0):
         fmt = "{0}={1}"
 
     for var in myisy.var_iter() :
-        print fmt.format( var.name, var.value )
+        print(fmt.format( var.name, var.value ))
 
 def list_vars(myisy) :
     fmt = "{:<4} : {:<19}{:<5}\t{:<5}\t{:}"
-    print fmt.format( "ID", "NAME", "VAL", "INIT", "DATE" )
+    print(fmt.format( "ID", "NAME", "VAL", "INIT", "DATE" ))
     for var in myisy.var_iter() :
-        print fmt.format( var.id, var.name, var.value, var.init, var.ts )
+        print(fmt.format( var.id, var.name, var.value, var.init, var.ts ))
 
 def usage(code, msg=''):
     print >> sys.stderr, __doc__ 
-    print "globals ", globals()
+    print("globals ", globals())
     # % globals()
     if msg:
         print >> sys.stderr, msg
@@ -60,7 +60,7 @@ def parseargs():
         opts, args = getopt.getopt(
             sys.argv[1:], "hbldc",
             ['bash', 'csh', 'list', 'help', 'debug='])
-    except getopt.error, e:
+    except getopt.error as e:
         usage(1, e)
  
     for opt, arg in opts:
@@ -81,14 +81,14 @@ def set_vars(isy, *arg):
     # print "set_vars arg: ", arg
     for ar in arg:
         name, val  = str(ar).split('=')
-        print "set ", name, " to ", val
+        print("set ", name, " to ", val)
         if str(val).isdigit :
             try :
                 isy.var_set_value(name, val)
             except LookupError :
-                print "bad Var name: ", ar
+                print("bad Var name: ", ar)
         else :
-            print "bad Value: ", ar
+            print("bad Value: ", ar)
     return
 
 if __name__ == '__main__':

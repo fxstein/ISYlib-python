@@ -6,7 +6,7 @@ Supporting a Simple and OO interface for ISY home automation netapp
 
 
 see also : http://www.universal-devices.com/residential/
-	   http://wiki.universal-devices.com/index.php?title=Main_Page
+           http://wiki.universal-devices.com/index.php?title=Main_Page
 
 NOTE: This Libaray is not written my or supported by universal devices
 
@@ -69,20 +69,20 @@ Internal classes
 
 Exception Classes :
     IsyError
-	IsyCommandError
-	IsyNodeError
-	IsyResponseError
-	IsyPropertyError
-	IsyValueError
-	IsyInvalidCmdError
-	IsyAttributeError
+        IsyCommandError
+        IsyNodeError
+        IsyResponseError
+        IsyPropertyError
+        IsyValueError
+        IsyInvalidCmdError
+        IsyAttributeError
 
     UpnpLimitExpired
 
 """
 
 import sys
-if sys.hexversion < 0x20703f0 :
+if sys.hexversion < 0x20703f0:
     sys.stderr.write("You need python 2.7 or later to run this script\n")
 
 __revision__ = "$Id$"
@@ -103,26 +103,17 @@ from ISY.IsyExceptionClass import IsyError
 from ISY.IsyDebug import *
 #
 
-
-
-
-
 #__all__ = ['IsyUtil', 'Isy',  'IsyNode', 'IsyProgram', 'IsyVar']
-__all__ = ['Isy', 'IsyUtil', 'IsyUtilClass', 'IsyClass',  'IsyNode', 'IsyVar',
-	    'isy_discover', 'IsyGetArg']
+__all__ = ['Isy', 'IsyUtil', 'IsyUtilClass', 'IsyClass',  'IsyNode', 'IsyVar', 'isy_discover', 'IsyGetArg']
 #__all__ = ['IsyUtil', 'Isy']
-
-
-
 
 #
 # Do nothing
 # (syntax check)
 #
 if __name__ == "__main__":
-    import __main__
+    #import __main__
     #print(__main__.__file___)
     print("ISY.__init__")
     print("syntax ok")
     exit(0)
-
